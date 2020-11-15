@@ -1,0 +1,16 @@
+name = "AbstractInterpreterPlayground"
+uuid = "ff64e9bf-ea8a-4df0-a7da-3355b86bad0f"
+authors = ["Shuhei Kadowaki <aviatesk@gmail.com>"]
+version = "0.0.0"
+
+[deps]
+InteractiveUtils = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
