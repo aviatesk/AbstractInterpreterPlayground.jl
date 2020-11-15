@@ -13,6 +13,10 @@ CC.haskey(tpc::DummyCache, mi::MethodInstance) = CC.haskey(tpc.native, mi)
 
 function CC.get(tpc::DummyCache, mi::MethodInstance, default)
     ret = CC.get(tpc.native, mi, default)
+
+    # return default # NOTE: return default to invalidate inference cache
+
+    return ret
 end
 
 CC.getindex(tpc::DummyCache, mi::MethodInstance) = CC.getindex(tpc.native, mi)

@@ -156,7 +156,7 @@ macro enter_call(ex0...)
     return InteractiveUtils.gen_call_with_extracted_types_and_kwargs(@__MODULE__, :enter_call, ex0)
 end
 
-function enter_call(@nospecialize(f), @nospecialize(types);
+function enter_call(@nospecialize(f), @nospecialize(types=Tuple{});
                     kwargs...)
     interp = DummyInterpreter(; inf_params = gen_inf_params(; kwargs...),
                                 opt_params = gen_opt_params(; kwargs...),
@@ -164,9 +164,9 @@ function enter_call(@nospecialize(f), @nospecialize(types);
     ft = Typeof(f)
     tt = if isa(types, Type)
         u = unwrap_unionall(types)
-        tt = rewrap_unionall(Tuple{ft, u.parameters...}, types)
+        rewrap_unionall(Tuple{ft, u.parameters...}, types)
     else
-        tt = Tuple{ft, types...}
+        Tuple{ft, types...}
     end
     return enter_gf_by_type!(interp, tt)
 end
