@@ -1,5 +1,9 @@
 function typeinf(interp::DummyInterpreter, frame::InferenceState)
+    interp.depth[] += 1
     ret = @invoke typeinf(interp::AbstractInterpreter, frame::InferenceState)
+    interp.depth[] -= 1
+
+    return ret
 end
 
 function _typeinf(interp::DummyInterpreter, frame::InferenceState)

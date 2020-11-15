@@ -22,10 +22,10 @@ Let's apply the following diff and then `typeinf(interp::DummyInterpreter, frame
 
 ```diff
 diff --git a/src/typeinfer.jl b/src/typeinfer.jl
-index fd0c185..b2262a9 100644
+index 40318af..67d9cd9 100644
 --- a/src/typeinfer.jl
 +++ b/src/typeinfer.jl
-@@ -1,5 +1,22 @@
+@@ -1,8 +1,21 @@
  function typeinf(interp::DummyInterpreter, frame::InferenceState)
 +    # debug info before typeinf
 +    depth = interp.depth[]
@@ -34,20 +34,18 @@ index fd0c185..b2262a9 100644
 +    print_rails(io, depth)
 +    printstyled(io, "┌ @ "; color)
 +    println(io, frame.linfo)
-+    interp.depth[] += 1
 +
+     interp.depth[] += 1
      ret = @invoke typeinf(interp::AbstractInterpreter, frame::InferenceState)
-+
+     interp.depth[] -= 1
+ 
 +    # debug info after typeinf
-+    interp.depth[] -= 1
 +    print_rails(io, depth)
 +    printstyled(io, "└─> "; color)
 +    printlnstyled(io, frame.src.rettype; color = TYPE_ANNOTATION_COLOR)
 +
-+    return ret
+     return ret
  end
-
- function _typeinf(interp::DummyInterpreter, frame::InferenceState)
 ```
 
 ```julia
