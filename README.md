@@ -3,9 +3,9 @@
 ![CI](https://github.com/aviatesk/AbstractInterpreterPlayground.jl/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/aviatesk/AbstractInterpreterPlayground.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/aviatesk/AbstractInterpreterPlayground.jl)
 
-This package provides a scaffold to debug Julia's type inference system;
-The abstract interpretation methods within `Core.Compiler` module are overloaded against `AbstractInterpreterPlayground.CustomInterpreter <: Core.Compiler.AbstractInterpreter` so that we can easily inject custom user-code into an abstract interpretation pass, e.g. print debug.
-Note that the overloaded methods pass on `CustomInterpreter` to the original (i.e. `NativeInterpreter`'s) methods, so that the subsequent callee abstract interpretation calls within them will be recursively called against `CustomInterpreter`.
+This package provides a scaffold to customize Julia's type inference system;
+The abstract interpretation methods within `Core.Compiler` module are overloaded against `AbstractInterpreterPlayground.CustomInterpreter <: Core.Compiler.AbstractInterpreter` so that we can easily inject custom user-code into the abstract interpretation pass.
+Note that the overloaded methods pass on `CustomInterpreter` to the original (i.e. `NativeInterpreter`'s) methods, so that the subsequent callee abstract interpretation methods within them will be still recursively called against `CustomInterpreter` (see `@invoke` macro).
 
 
 ### Installation
@@ -14,7 +14,7 @@ Note that the overloaded methods pass on `CustomInterpreter` to the original (i.
 pkg> dev https://github.com/aviatesk/AbstractInterpreterPlayground.jl
 ```
 
-### Example
+### Example: fancy print debug
 
 Let's apply the following diff and then `typeinf(interp::CustomInterpreter, frame::InferenceState)` will nicely print out the result of each local type inferences frame:
 
