@@ -54,7 +54,6 @@ end
 InferenceParams(interp::CustomInterpreter) = InferenceParams(interp.native)
 OptimizationParams(interp::CustomInterpreter) = OptimizationParams(interp.native)
 get_world_counter(interp::CustomInterpreter) = get_world_counter(interp.native)
-get_inference_cache(interp::CustomInterpreter) = get_inference_cache(interp.native)
 
 lock_mi_inference(::CustomInterpreter, ::MethodInstance) = nothing
 unlock_mi_inference(::CustomInterpreter, ::MethodInstance) = nothing
