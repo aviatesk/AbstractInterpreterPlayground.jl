@@ -1,24 +1,24 @@
-code_cache(interp::DummyInterpreter) = DummyCache(interp, code_cache(interp.native))
+code_cache(interp::CustomInterpreter) = CustomGlobalCache(interp, code_cache(interp.native))
 
-struct DummyCache{NativeCache}
-    interp::DummyInterpreter
+struct CustomGlobalCache{NativeCache}
+    interp::CustomInterpreter
     native::NativeCache
-    DummyCache(interp::DummyInterpreter, native::NativeCache) where {NativeCache} =
+    CustomGlobalCache(interp::CustomInterpreter, native::NativeCache) where {NativeCache} =
         new{NativeCache}(interp, native)
 end
-WorldView(tpc::DummyCache, wr::WorldRange) = DummyCache(tpc.interp, WorldView(tpc.native, wr))
-WorldView(tpc::DummyCache, args...) = WorldView(tpc, WorldRange(args...))
+WorldView(tpc::CustomGlobalCache, wr::WorldRange) = CustomGlobalCache(tpc.interp, WorldView(tpc.native, wr))
+WorldView(tpc::CustomGlobalCache, args...) = WorldView(tpc, WorldRange(args...))
 
-CC.haskey(tpc::DummyCache, mi::MethodInstance) = CC.haskey(tpc.native, mi)
+CC.haskey(tpc::CustomGlobalCache, mi::MethodInstance) = CC.haskey(tpc.native, mi)
 
-function CC.get(tpc::DummyCache, mi::MethodInstance, default)
+function CC.get(tpc::CustomGlobalCache, mi::MethodInstance, default)
     ret = CC.get(tpc.native, mi, default)
 
-    # return default # NOTE: return default to invalidate inference cache
+    # return default # NOTE: return `default` will invalidate inference cache
 
     return ret
 end
 
-CC.getindex(tpc::DummyCache, mi::MethodInstance) = CC.getindex(tpc.native, mi)
+CC.getindex(tpc::CustomGlobalCache, mi::MethodInstance) = CC.getindex(tpc.native, mi)
 
-CC.setindex!(tpc::DummyCache, ci::CodeInstance, mi::MethodInstance) = CC.setindex!(tpc.native, ci, mi)
+CC.setindex!(tpc::CustomGlobalCache, ci::CodeInstance, mi::MethodInstance) = CC.setindex!(tpc.native, ci, mi)

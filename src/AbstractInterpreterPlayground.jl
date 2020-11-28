@@ -95,8 +95,8 @@ When an argument's type annotation is omitted, it's specified as `Any` argument,
 `@invoke f(arg1::T, arg2)` will be expanded into `invoke(f, Tuple{T,Any}, arg1, arg2)`.
 
 This could be used to call down to `NativeInterpreter`'s abstract interpretation method of
-  `f` while passing `DummyInterpreter` so that subsequent calls of abstract interpretation
-  functions overloaded against `DummyInterpreter` can be called from the native method of `f`;
+  `f` while passing `CustomInterpreter` so that subsequent calls of abstract interpretation
+  functions overloaded against `CustomInterpreter` can be called from the native method of `f`;
 e.g. calls down to `NativeInterpreter`'s `abstract_call_gf_by_type` method:
 ```julia
 @invoke abstract_call_gf_by_type(interp::AbstractInterpreter, f, argtypes::Vector{Any}, atype, sv::InferenceState,
@@ -158,9 +158,9 @@ end
 
 function enter_call(@nospecialize(f), @nospecialize(types=Tuple{});
                     kwargs...)
-    interp = DummyInterpreter(; inf_params = gen_inf_params(; kwargs...),
-                                opt_params = gen_opt_params(; kwargs...),
-                                kwargs...)
+    interp = CustomInterpreter(; inf_params = gen_inf_params(; kwargs...),
+                                 opt_params = gen_opt_params(; kwargs...),
+                                 kwargs...)
     ft = Typeof(f)
     tt = if isa(types, Type)
         u = unwrap_unionall(types)
@@ -172,7 +172,7 @@ function enter_call(@nospecialize(f), @nospecialize(types=Tuple{});
 end
 
 # TODO `enter_call_builtin!` ?
-function enter_gf_by_type!(interp::DummyInterpreter,
+function enter_gf_by_type!(interp::CustomInterpreter,
                            @nospecialize(tt::Type{<:Tuple}),
                            world::UInt = get_world_counter(interp),
                            )
@@ -187,7 +187,7 @@ function enter_gf_by_type!(interp::DummyInterpreter,
     return enter_method_signature!(interp, mm.method, mm.spec_types, mm.sparams)
 end
 
-function enter_method_signature!(interp::DummyInterpreter,
+function enter_method_signature!(interp::CustomInterpreter,
                                  m::Method,
                                  @nospecialize(atype),
                                  sparams::SimpleVector,
@@ -204,7 +204,7 @@ function enter_method_signature!(interp::DummyInterpreter,
     return interp, frame
 end
 
-function enter_method!(interp::DummyInterpreter,
+function enter_method!(interp::CustomInterpreter,
                        m::Method,
                        world::UInt = get_world_counter(interp),
                        )

@@ -1,4 +1,4 @@
-struct DummyInterpreter <: AbstractInterpreter
+struct CustomInterpreter <: AbstractInterpreter
     #= native =#
 
     native::NativeInterpreter
@@ -9,14 +9,14 @@ struct DummyInterpreter <: AbstractInterpreter
     #= debugging =#
     depth::Ref{Int}
 
-    function DummyInterpreter(world             = get_world_counter();
-                              inf_params        = gen_inf_params(),
-                              opt_params        = gen_opt_params(),
-                              optimize          = true,
-                              compress          = false,
-                              discard_trees     = false,
-                              # dummy kwargs so that kwargs for other functions can be passed on
-                              __kwargs...)
+    function CustomInterpreter(world         = get_world_counter();
+                               inf_params    = gen_inf_params(),
+                               opt_params    = gen_opt_params(),
+                               optimize      = true,
+                               compress      = false,
+                               discard_trees = false,
+                               # dummy kwargs so that kwargs for other functions can be passed on
+                               __kwargs...)
         native = NativeInterpreter(world; inf_params, opt_params)
         return new(native,
                    optimize,
@@ -42,7 +42,7 @@ function gen_inf_params(; # more constant prop, more correct reports ?
                              )
 end
 
-function gen_opt_params(; # inlining should be disabled for `DummyInterpreter`, otherwise virtual stack frame
+function gen_opt_params(; # inlining should be disabled for `CustomInterpreter`, otherwise virtual stack frame
                           # traversing will fail for frames after optimizer runs on
                           inlining = false,
                           # dummy kwargs so that kwargs for other functions can be passed on
@@ -51,21 +51,18 @@ function gen_opt_params(; # inlining should be disabled for `DummyInterpreter`, 
                                 )
 end
 
-# API
-# ---
+InferenceParams(interp::CustomInterpreter) = InferenceParams(interp.native)
+OptimizationParams(interp::CustomInterpreter) = OptimizationParams(interp.native)
+get_world_counter(interp::CustomInterpreter) = get_world_counter(interp.native)
+get_inference_cache(interp::CustomInterpreter) = get_inference_cache(interp.native)
 
-InferenceParams(interp::DummyInterpreter) = InferenceParams(interp.native)
-OptimizationParams(interp::DummyInterpreter) = OptimizationParams(interp.native)
-get_world_counter(interp::DummyInterpreter) = get_world_counter(interp.native)
-get_inference_cache(interp::DummyInterpreter) = get_inference_cache(interp.native)
+lock_mi_inference(::CustomInterpreter, ::MethodInstance) = nothing
+unlock_mi_inference(::CustomInterpreter, ::MethodInstance) = nothing
 
-lock_mi_inference(::DummyInterpreter, ::MethodInstance) = nothing
-unlock_mi_inference(::DummyInterpreter, ::MethodInstance) = nothing
-
-function add_remark!(interp::DummyInterpreter, sv, s)
+function add_remark!(interp::CustomInterpreter, sv, s)
     ret = add_remark!(interp.native, sv, s)
 end
 
-may_optimize(interp::DummyInterpreter) = interp.optimize
-may_compress(interp::DummyInterpreter) = interp.compress
-may_discard_trees(interp::DummyInterpreter) = interp.discard_trees
+may_optimize(interp::CustomInterpreter) = interp.optimize
+may_compress(interp::CustomInterpreter) = interp.compress
+may_discard_trees(interp::CustomInterpreter) = interp.discard_trees

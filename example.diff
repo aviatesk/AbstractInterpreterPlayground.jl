@@ -3,7 +3,7 @@ index 40318af..67d9cd9 100644
 --- a/src/typeinfer.jl
 +++ b/src/typeinfer.jl
 @@ -1,8 +1,21 @@
- function typeinf(interp::DummyInterpreter, frame::InferenceState)
+ function typeinf(interp::CustomInterpreter, frame::InferenceState)
 +    # debug info before typeinf
 +    depth = interp.depth[]
 +    io = stdout::IO

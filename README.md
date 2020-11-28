@@ -4,8 +4,8 @@
 [![codecov](https://codecov.io/gh/aviatesk/AbstractInterpreterPlayground.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/aviatesk/AbstractInterpreterPlayground.jl)
 
 This package provides a scaffold to debug Julia's type inference system;
-The abstract interpretation methods within `Core.Compiler` module are overloaded against `AbstractInterpreterPlayground.DummyInterpreter <: Core.Compiler.AbstractInterpreter` so that we can easily inject custom user-code into an abstract interpretation pass, e.g. print debug.
-Note that the overloaded methods pass on `DummyInterpreter` to the original (i.e. `NativeInterpreter`'s) methods, so that the subsequent callee abstract interpretation calls within them will be recursively called against `DummyInterpreter`.
+The abstract interpretation methods within `Core.Compiler` module are overloaded against `AbstractInterpreterPlayground.CustomInterpreter <: Core.Compiler.AbstractInterpreter` so that we can easily inject custom user-code into an abstract interpretation pass, e.g. print debug.
+Note that the overloaded methods pass on `CustomInterpreter` to the original (i.e. `NativeInterpreter`'s) methods, so that the subsequent callee abstract interpretation calls within them will be recursively called against `CustomInterpreter`.
 
 
 ### Installation
@@ -16,7 +16,7 @@ pkg> dev https://github.com/aviatesk/AbstractInterpreterPlayground.jl
 
 ### Example
 
-Let's apply the following diff and then `typeinf(interp::DummyInterpreter, frame::InferenceState)` will nicely print out the result of each local type inferences frame:
+Let's apply the following diff and then `typeinf(interp::CustomInterpreter, frame::InferenceState)` will nicely print out the result of each local type inferences frame:
 
 > git apply example.diff
 
@@ -26,7 +26,7 @@ index 40318af..67d9cd9 100644
 --- a/src/typeinfer.jl
 +++ b/src/typeinfer.jl
 @@ -1,8 +1,21 @@
- function typeinf(interp::DummyInterpreter, frame::InferenceState)
+ function typeinf(interp::CustomInterpreter, frame::InferenceState)
 +    # debug info before typeinf
 +    depth = interp.depth[]
 +    io = stdout::IO
@@ -38,7 +38,7 @@ index 40318af..67d9cd9 100644
      interp.depth[] += 1
      ret = @invoke typeinf(interp::AbstractInterpreter, frame::InferenceState)
      interp.depth[] -= 1
- 
+
 +    # debug info after typeinf
 +    print_rails(io, depth)
 +    printstyled(io, "└─> "; color)
