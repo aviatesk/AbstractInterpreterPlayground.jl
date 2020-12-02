@@ -11,6 +11,7 @@ WorldView(tpc::CustomGlobalCache, args...) = WorldView(tpc, WorldRange(args...))
 
 CC.haskey(tpc::CustomGlobalCache, mi::MethodInstance) = CC.haskey(tpc.native, mi)
 
+# here we can work on global cache retrieval
 function CC.get(tpc::CustomGlobalCache, mi::MethodInstance, default)
     ret = CC.get(tpc.native, mi, default)
 

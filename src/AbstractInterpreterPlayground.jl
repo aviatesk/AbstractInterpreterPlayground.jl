@@ -18,6 +18,8 @@ import Core.Compiler:
     # cicache.jl
     code_cache,
     WorldView,
+    # inferenceresult.jl
+    cache_lookup,
     # tfuncs.jl
     invoke_tfunc,
     builtin_tfunction,
@@ -144,6 +146,7 @@ macro src(ex) QuoteNode(first(lower(__module__, ex).args)) end
 
 include("abstractinterpreterinterface.jl")
 include("cicache.jl")
+include("inferenceresult.jl")
 include("tfuncs.jl")
 include("abstractinterpretation.jl")
 include("typeinfer.jl")
