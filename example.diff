@@ -1,5 +1,5 @@
 diff --git a/src/typeinfer.jl b/src/typeinfer.jl
-index 40318af..67d9cd9 100644
+index dfd78c1..b8635cd 100644
 --- a/src/typeinfer.jl
 +++ b/src/typeinfer.jl
 @@ -1,8 +1,21 @@
@@ -18,7 +18,7 @@ index 40318af..67d9cd9 100644
  
 +    # debug info after typeinf
 +    print_rails(io, depth)
-+    printstyled(io, "└─> "; color)
++    printstyled(io, "└─→ "; color)
 +    printlnstyled(io, frame.src.rettype; color = TYPE_ANNOTATION_COLOR)
 +
      return ret

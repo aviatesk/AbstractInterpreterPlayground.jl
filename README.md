@@ -22,7 +22,7 @@ Let's apply the following diff and then `typeinf(interp::CustomInterpreter, fram
 
 ```diff
 diff --git a/src/typeinfer.jl b/src/typeinfer.jl
-index 40318af..67d9cd9 100644
+index dfd78c1..b8635cd 100644
 --- a/src/typeinfer.jl
 +++ b/src/typeinfer.jl
 @@ -1,8 +1,21 @@
@@ -41,7 +41,7 @@ index 40318af..67d9cd9 100644
 
 +    # debug info after typeinf
 +    print_rails(io, depth)
-+    printstyled(io, "└─> "; color)
++    printstyled(io, "└─→ "; color)
 +    printlnstyled(io, frame.src.rettype; color = TYPE_ANNOTATION_COLOR)
 +
      return ret
@@ -58,272 +58,275 @@ julia> @enter_call sin(1);
 │││┌ @ MethodInstance for promote(::Float64, ::Int64)
 ││││┌ @ MethodInstance for _promote(::Float64, ::Int64)
 │││││┌ @ MethodInstance for convert(::Type{Float64}, ::Float64)
-│││││└─> Float64
+│││││└─→ Float64
 │││││┌ @ MethodInstance for convert(::Type{Float64}, ::Int64)
 ││││││┌ @ MethodInstance for Float64(::Int64)
-││││││└─> Float64
-│││││└─> Float64
-││││└─> Tuple{Float64, Float64}
+││││││└─→ Float64
+│││││└─→ Float64
+││││└─→ Tuple{Float64, Float64}
 ││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64)
 │││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64, ::Int64)
 ││││││┌ @ MethodInstance for +(::Int64, ::Int64)
-││││││└─> Int64
-│││││└─> Tuple{Float64, Int64}
-││││└─> Tuple{Float64, Int64}
+││││││└─→ Int64
+│││││└─→ Tuple{Float64, Int64}
+││││└─→ Tuple{Float64, Int64}
 ││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64, ::Int64)
 │││││┌ @ MethodInstance for +(::Int64, ::Int64)
-│││││└─> Int64
-││││└─> Tuple{Float64, Int64}
-│││└─> Tuple{Float64, Float64}
+│││││└─→ Int64
+││││└─→ Tuple{Float64, Int64}
+│││└─→ Tuple{Float64, Float64}
 │││┌ @ MethodInstance for /(::Float64, ::Float64)
-│││└─> Float64
-││└─> Float64
+│││└─→ Float64
+││└─→ Float64
 ││┌ @ MethodInstance for sqrt(::Float64)
-││└─> Float64
+││└─→ Float64
 ││┌ @ MethodInstance for sqrt(::Float64)
 │││┌ @ MethodInstance for <(::Float64, ::Float64)
-│││└─> Bool
-││└─> Float64
+│││└─→ Bool
+││└─→ Float64
 ││┌ @ MethodInstance for sin_kernel(::Float64)
 │││┌ @ MethodInstance for evalpoly(::Float64, ::Tuple{Float64, Float64, Float64})
 ││││┌ @ MethodInstance for lastindex(::Tuple{Float64, Float64, Float64})
-││││└─> Int64
+││││└─→ Int64
 ││││┌ @ MethodInstance for getindex(::Tuple{Float64, Float64, Float64}, ::Int64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for getindex(::Tuple{Float64, Float64, Float64}, ::Int64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for getindex(::Tuple{Float64, Float64, Float64}, ::Int64)
-││││└─> Float64
-│││└─> Float64
-││└─> Float64
+││││└─→ Float64
+│││└─→ Float64
+││└─→ Float64
 ││┌ @ MethodInstance for Float64(::Float64)
-││└─> Float64
+││└─→ Float64
 ││┌ @ MethodInstance for isinf(::Float64)
-││└─> Bool
+││└─→ Bool
 ││┌ @ MethodInstance for sin_domain_error(::Float64)
-││└─> Union{}
+││└─→ Union{}
 ││┌ @ MethodInstance for rem_pio2_kernel(::Float64)
 │││┌ @ MethodInstance for poshighword(::Float64)
 ││││┌ @ MethodInstance for poshighword(::UInt64)
 │││││┌ @ MethodInstance for highword(::UInt64)
 ││││││┌ @ MethodInstance for >>>(::UInt64, ::Int64)
 │││││││┌ @ MethodInstance for <=(::Int64, ::Int64)
-│││││││└─> Bool
+│││││││└─→ Bool
 │││││││┌ @ MethodInstance for unsigned(::Int64)
 ││││││││┌ @ MethodInstance for reinterpret(::Type{UInt64}, ::Int64)
-││││││││└─> UInt64
-│││││││└─> UInt64
+││││││││└─→ UInt64
+│││││││└─→ UInt64
 │││││││┌ @ MethodInstance for >>>(::UInt64, ::UInt64)
-│││││││└─> UInt64
+│││││││└─→ UInt64
 │││││││┌ @ MethodInstance for -(::Int64)
-│││││││└─> Int64
+│││││││└─→ Int64
 │││││││┌ @ MethodInstance for unsigned(::Int64)
 ││││││││┌ @ MethodInstance for reinterpret(::Type{UInt64}, ::Int64)
-││││││││└─> UInt64
-│││││││└─> UInt64
-││││││└─> UInt64
-│││││└─> UInt32
+││││││││└─→ UInt64
+│││││││└─→ UInt64
+││││││└─→ UInt64
+│││││└─→ UInt32
 │││││┌ @ MethodInstance for &(::UInt32, ::UInt32)
-│││││└─> UInt32
-││││└─> UInt32
-│││└─> UInt32
+│││││└─→ UInt32
+││││└─→ UInt32
+│││└─→ UInt32
 │││┌ @ MethodInstance for &(::UInt32, ::UInt32)
-│││└─> UInt32
+│││└─→ UInt32
 │││┌ @ MethodInstance for cody_waite_ext_pio2(::Float64, ::UInt32)
 ││││┌ @ MethodInstance for /(::Int64, ::Irrational{:π})
 │││││┌ @ MethodInstance for promote(::Int64, ::Irrational{:π})
 ││││││┌ @ MethodInstance for _promote(::Int64, ::Irrational{:π})
 │││││││┌ @ MethodInstance for promote_type(::Type{Int64}, ::Type{Irrational{:π}})
 ││││││││┌ @ MethodInstance for promote_rule(::Type{Int64}, ::Type{Irrational{:π}})
-││││││││└─> Type{Union{}}
+││││││││└─→ Type{Union{}}
 ││││││││┌ @ MethodInstance for promote_rule(::Type{Irrational{:π}}, ::Type{Int64})
-││││││││└─> Type{Float64}
+││││││││└─→ Type{Float64}
 ││││││││┌ @ MethodInstance for promote_result(::Type{Int64}, ::Type{Irrational{:π}}, ::Type{Union{}}, ::Type{Float64})
-││││││││└─> Type{Float64}
-│││││││└─> Type{Float64}
+││││││││└─→ Type{Float64}
+│││││││└─→ Type{Float64}
 │││││││┌ @ MethodInstance for convert(::Type{Float64}, ::Irrational{:π})
-│││││││└─> Float64
-││││││└─> Tuple{Float64, Float64}
+│││││││└─→ Float64
+││││││└─→ Tuple{Float64, Float64}
 ││││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64)
 │││││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64, ::Int64)
-│││││││└─> Tuple{Float64, Int64}
-││││││└─> Tuple{Float64, Int64}
+│││││││└─→ Tuple{Float64, Int64}
+││││││└─→ Tuple{Float64, Int64}
 ││││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64, ::Int64)
-││││││└─> Tuple{Float64, Int64}
+││││││└─→ Tuple{Float64, Int64}
 ││││││┌ @ MethodInstance for not_sametype(::Tuple{Int64, Irrational{:π}}, ::Tuple{Float64, Float64})
-││││││└─> Nothing
-│││││└─> Tuple{Float64, Float64}
+││││││└─→ Nothing
+│││││└─→ Tuple{Float64, Float64}
 │││││┌ @ MethodInstance for /(::Float64, ::Float64)
-│││││└─> Float64
-││││└─> Float64
+│││││└─→ Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for /(::Int64, ::Irrational{:π})
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for highword(::Float64)
-││││└─> UInt32
+││││└─→ UInt32
 ││││┌ @ MethodInstance for &(::UInt32, ::UInt16)
 │││││┌ @ MethodInstance for promote_typeof(::UInt32, ::UInt16)
-│││││└─> Type{UInt32}
-││││└─> UInt32
+│││││└─→ Type{UInt32}
+││││└─→ UInt32
 ││││┌ @ MethodInstance for &(::UInt32, ::UInt16)
 │││││┌ @ MethodInstance for rem(::UInt16, ::Type{UInt32})
 ││││││┌ @ MethodInstance for convert(::Type{UInt32}, ::UInt16)
 │││││││┌ @ MethodInstance for UInt32(::UInt16)
 ││││││││┌ @ MethodInstance for toUInt32(::UInt16)
-││││││││└─> UInt32
-│││││││└─> UInt32
-││││││└─> UInt32
-│││││└─> UInt32
+││││││││└─→ UInt32
+│││││││└─→ UInt32
+││││││└─→ UInt32
+│││││└─→ UInt32
 │││││┌ @ MethodInstance for &(::UInt32, ::UInt32)
-│││││└─> UInt32
-││││└─> UInt32
+│││││└─→ UInt32
+││││└─→ UInt32
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for Base.Math.DoubleFloat64(::Float64, ::Float64)
-││││└─> Base.Math.DoubleFloat64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Base.Math.DoubleFloat64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
-│││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
-││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
-││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
 ││││┌ @ MethodInstance for -(::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
+││││└─→ Float64
 ││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
-││││└─> Float64
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
+│││┌ @ MethodInstance for cody_waite_2c_pio2(::Float64, ::Float64, ::Int64)
+││││┌ @ MethodInstance for -(::Float64)
+││││└─→ Float64
+││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
+││││└─→ Float64
+││││┌ @ MethodInstance for muladd(::Float64, ::Float64, ::Float64)
+││││└─→ Float64
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 │││┌ @ MethodInstance for paynehanek(::Float64)
 ││││┌ @ MethodInstance for &(::UInt64, ::UInt64)
-││││└─> UInt64
+││││└─→ UInt64
 ││││┌ @ MethodInstance for <<(::UInt64, ::Int64)
 │││││┌ @ MethodInstance for <=(::Int64, ::Int64)
-│││││└─> Bool
+│││││└─→ Bool
 │││││┌ @ MethodInstance for unsigned(::Int64)
 ││││││┌ @ MethodInstance for reinterpret(::Type{UInt64}, ::Int64)
-││││││└─> UInt64
-│││││└─> UInt64
+││││││└─→ UInt64
+│││││└─→ UInt64
 │││││┌ @ MethodInstance for <<(::UInt64, ::UInt64)
-│││││└─> UInt64
+│││││└─→ UInt64
 │││││┌ @ MethodInstance for -(::Int64)
-│││││└─> Int64
+│││││└─→ Int64
 │││││┌ @ MethodInstance for unsigned(::Int64)
 ││││││┌ @ MethodInstance for reinterpret(::Type{UInt64}, ::Int64)
-││││││└─> UInt64
-│││││└─> UInt64
+││││││└─→ UInt64
+│││││└─→ UInt64
 │││││┌ @ MethodInstance for >>(::UInt64, ::UInt64)
-│││││└─> UInt64
-││││└─> UInt64
+│││││└─→ UInt64
+││││└─→ UInt64
 ││││┌ @ MethodInstance for |(::UInt64, ::UInt64)
-││││└─> UInt64
+││││└─→ UInt64
 ││││┌ @ MethodInstance for &(::UInt64, ::UInt64)
-││││└─> UInt64
+││││└─→ UInt64
 ││││┌ @ MethodInstance for widemul(::UInt64, ::UInt64)
-││││└─> UInt128
+││││└─→ UInt128
 ││││┌ @ MethodInstance for +(::UInt128, ::UInt128, ::UInt128)
-││││└─> UInt128
+││││└─→ UInt128
 ││││┌ @ MethodInstance for flipsign(::UInt128, ::Float64)
-││││└─> UInt128
+││││└─→ UInt128
 ││││┌ @ MethodInstance for rem(::UInt128, ::Type{Int128})
-││││└─> Int128
+││││└─→ Int128
 ││││┌ @ MethodInstance for fromfraction(::Int128)
 │││││┌ @ MethodInstance for <(::Int128, ::Int64)
 ││││││┌ @ MethodInstance for <(::Int128, ::Int128)
-││││││└─> Bool
-│││││└─> Bool
-││││└─> Tuple{Float64, Float64}
+││││││└─→ Bool
+│││││└─→ Bool
+││││└─→ Tuple{Float64, Float64}
 ││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64)
 │││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64, ::Int64)
-│││││└─> Tuple{Float64, Int64}
-││││└─> Tuple{Float64, Int64}
+│││││└─→ Tuple{Float64, Int64}
+││││└─→ Tuple{Float64, Int64}
 ││││┌ @ MethodInstance for indexed_iterate(::Tuple{Float64, Float64}, ::Int64, ::Int64)
-││││└─> Tuple{Float64, Int64}
-│││└─> Tuple{Int64, Base.Math.DoubleFloat64}
-││└─> Tuple{Int64, Base.Math.DoubleFloat64}
+││││└─→ Tuple{Float64, Int64}
+│││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
+││└─→ Tuple{Int64, Base.Math.DoubleFloat64}
 ││┌ @ MethodInstance for indexed_iterate(::Tuple{Int64, Base.Math.DoubleFloat64}, ::Int64)
 │││┌ @ MethodInstance for indexed_iterate(::Tuple{Int64, Base.Math.DoubleFloat64}, ::Int64, ::Int64)
-│││└─> Tuple{Union{Int64, Base.Math.DoubleFloat64}, Int64}
+│││└─→ Tuple{Union{Int64, Base.Math.DoubleFloat64}, Int64}
 │││┌ @ MethodInstance for indexed_iterate(::Tuple{Int64, Base.Math.DoubleFloat64}, ::Int64, ::Int64)
-│││└─> Tuple{Union{Int64, Base.Math.DoubleFloat64}, Int64}
-││└─> Tuple{Union{Int64, Base.Math.DoubleFloat64}, Int64}
+│││└─→ Tuple{Union{Int64, Base.Math.DoubleFloat64}, Int64}
+││└─→ Tuple{Union{Int64, Base.Math.DoubleFloat64}, Int64}
 ││┌ @ MethodInstance for indexed_iterate(::Tuple{Int64, Base.Math.DoubleFloat64}, ::Int64)
 │││┌ @ MethodInstance for indexed_iterate(::Tuple{Int64, Base.Math.DoubleFloat64}, ::Int64, ::Int64)
-│││└─> Tuple{Int64, Int64}
-││└─> Tuple{Int64, Int64}
+│││└─→ Tuple{Int64, Int64}
+││└─→ Tuple{Int64, Int64}
 ││┌ @ MethodInstance for indexed_iterate(::Tuple{Int64, Base.Math.DoubleFloat64}, ::Int64, ::Int64)
-││└─> Tuple{Base.Math.DoubleFloat64, Int64}
+││└─→ Tuple{Base.Math.DoubleFloat64, Int64}
 ││┌ @ MethodInstance for &(::Int64, ::Int64)
-││└─> Int64
+││└─→ Int64
 ││┌ @ MethodInstance for sin_kernel(::Base.Math.DoubleFloat64)
 │││┌ @ MethodInstance for getproperty(::Base.Math.DoubleFloat64, ::Symbol)
-│││└─> Float64
+│││└─→ Float64
 │││┌ @ MethodInstance for getproperty(::Base.Math.DoubleFloat64, ::Symbol)
-│││└─> Float64
+│││└─→ Float64
 │││┌ @ MethodInstance for getproperty(::Base.Math.DoubleFloat64, ::Symbol)
-│││└─> Float64
-││└─> Float64
+│││└─→ Float64
+││└─→ Float64
 ││┌ @ MethodInstance for cos_kernel(::Base.Math.DoubleFloat64)
-││└─> Float64
-│└─> Float64
-└─> Float64
+││└─→ Float64
+│└─→ Float64
+└─→ Float64
+
+julia> frame.result # inspect `interp`, `frame` ...
+sin(::Int64) => Float64
 ```
